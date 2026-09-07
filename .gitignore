@@ -1,3 +1,7 @@
+# general
 node_modules
 .env
-/prisma/*
+
+# server
+generated/
+**/dev.db

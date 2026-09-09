@@ -85,3 +85,14 @@ export const login = async (req:Request, res:Response) => {
         }
     })
 }
+
+export const logout = (req:Request, res:Response) => {
+    res.cookie("jwt", "", {
+        httpOnly: true,
+        expires: new Date(0)
+    })
+    res.status(202).json({
+        status: "success",
+        message: "logged out successfully"
+    })
+}

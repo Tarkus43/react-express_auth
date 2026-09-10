@@ -1,10 +1,9 @@
 // imports
 import express from 'express'
 import { config } from 'dotenv'
-
-
 // route imports
 import { authRouter } from "./routes/authRoutes.js"
+import { dogRouter } from './routes/dogRoutes.js'
 
 config()
 
@@ -16,6 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // routes
 app.use("/auth", authRouter)
+app.use("/dog", dogRouter)
 
 const PORT = 3001
 app.listen(PORT, () => {

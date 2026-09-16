@@ -12,9 +12,11 @@ const Field = ({ title, inner, type, className }: FieldProps) => {
 
     return (
         <>  
-            <data className={className}></data>
-            <p>{title}</p>
-            <input type={type} placeholder={inner} />
+            <div className="input_wrapper">
+                <data className={className}></data>
+                <p>{title}</p>
+                <input type={type} placeholder={inner} />
+            </div>
         </>
     )
 }   

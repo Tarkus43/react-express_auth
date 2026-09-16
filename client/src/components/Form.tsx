@@ -1,13 +1,19 @@
+import type { SubmitEvent } from "react"
 import Field from "./Field"
+import SubmitBtn from "./SubmitBtn"
 
 interface FormProps {
     className: string
 }
 
 const Form = ({className}: FormProps) => {
+    const onSubmit = (event: SubmitEvent): void => {
+        event.preventDefault()
+    }
+
     return(
         <>
-            <form action="post" className={className}>
+            <form onSubmit={onSubmit} action="post" className={className}>
                 <Field 
                     title="email"
                     type="email" 
@@ -20,6 +26,7 @@ const Form = ({className}: FormProps) => {
                     inner="password123"
                     className="password_input input"
                 />
+                <SubmitBtn className="login_submit_btn btn" text="login" />
             </form>
         </>
     )

@@ -1,12 +1,15 @@
+import type { InputEventHandler } from "react"
+
 interface FieldProps {
     title: string
     inner: string
     type: string
     className: string
+    onInput: InputEventHandler<HTMLInputElement>
 }
 
 
-const Field = ({ title, inner, type, className }: FieldProps) => {
+const Field = ({ title, inner, type, className, onInput }: FieldProps) => {
 
 
 
@@ -15,7 +18,7 @@ const Field = ({ title, inner, type, className }: FieldProps) => {
             <div className="input_wrapper">
                 <data className={className}></data>
                 <p>{title}</p>
-                <input type={type} placeholder={inner} />
+                <input onInput={onInput} type={type} placeholder={inner} />
             </div>
         </>
     )

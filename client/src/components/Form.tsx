@@ -53,6 +53,26 @@ const Form = ({className}: FormProps) => {
         
     }
 
+    const logout = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+
+        try {
+            const response = await fetch("http://localhost:3001/auth/logout",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            console.log(response)
+            Cookies.remove("token")
+
+        } catch (error) {
+            setError(error)
+        }
+
+        setIsLogined("")
+    }
+
     return(
             <form onSubmit={login} className={className}>
                 <Field 
@@ -75,7 +95,12 @@ const Form = ({className}: FormProps) => {
                     type="submit"
                 />
                 {isLogined && !error && <div>Successfully logined</div>}
-                
+                {isLogined && <Button
+                    className="logout_btn btn"
+                    text="logout"
+                    type="button"
+                    onClick={logout}
+                />}
             </form>
     )
 }

@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent, type InputEvent } from "react"
+import { useState, type SubmitEvent, type InputEvent, type MouseEvent } from "react"
 import Field from "./Field"
 import Button from "./Button"
 import Cookies from "js-cookie"
@@ -7,11 +7,14 @@ interface FormProps {
     className: string
 }
 
-interface LoginResponse {
+interface ResponseData {
     error?: string
-    data?: object
     status?: string
-    token?: string
+    token?: string 
+}
+
+interface LoginResponse {
+    data?: ResponseData
 }
 
 const Form = ({className}: FormProps) => {
@@ -20,7 +23,7 @@ const Form = ({className}: FormProps) => {
     const [error, setError] = useState<string | null>(null)
     const [isLogined, setIsLogined] = useState("")
 
-    const onSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
+    const login = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         try {
@@ -40,7 +43,7 @@ const Form = ({className}: FormProps) => {
 
             const result:LoginResponse = await response.json()
 
-            Cookies.set("token", result.token)
+            Cookies.set("token", result.data.token)
 
             console.log("Successfully logined ", result.data)
             setIsLogined("true")
@@ -51,7 +54,7 @@ const Form = ({className}: FormProps) => {
     }
 
     return(
-            <form onSubmit={onSubmit} className={className}>
+            <form onSubmit={login} className={className}>
                 <Field 
                     title="email"
                     type="email" 
@@ -67,11 +70,12 @@ const Form = ({className}: FormProps) => {
                     onInput={(event: InputEvent<HTMLInputElement>) => {setPassword(event.currentTarget.value)}}
                 />
                 <Button 
-                    className="login_submit_btn btn" 
+                    className="login_btn btn" 
                     text="login"
                     type="submit"
                 />
                 {isLogined && !error && <div>Successfully logined</div>}
+                
             </form>
     )
 }

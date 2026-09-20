@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent, type InputEvent, type MouseEvent } from "react"
+import { useState, type SubmitEvent, type InputEvent, type MouseEvent, useEffect, type SetStateAction } from "react"
 import Field from "./Field"
 import Button from "./Button"
 import Cookies from "js-cookie"
@@ -18,6 +18,14 @@ interface LoginResponse {
 }
 
 const Form = ({className}: FormProps) => {
+    useEffect(() => {
+        const token = Cookies.get("token")
+        if (token) {
+            setIsLogined("true")
+            console.log("already logined :)")
+        }
+    }, [])
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState<string | null>(null)

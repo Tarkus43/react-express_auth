@@ -1,6 +1,6 @@
 import { useState, type SubmitEvent, type InputEvent } from "react"
 import Field from "./Field"
-import SubmitBtn from "./SubmitBtn"
+import Button from "./Button"
 import Cookies from "js-cookie"
 
 interface FormProps {
@@ -43,7 +43,7 @@ const Form = ({className}: FormProps) => {
             Cookies.set("token", result.token)
 
             console.log("Successfully logined ", result.data)
-            setIsLogined("ok")
+            setIsLogined("true")
         } catch (error) {
             setError(error)
         }
@@ -66,7 +66,11 @@ const Form = ({className}: FormProps) => {
                     className="password_input input"
                     onInput={(event: InputEvent<HTMLInputElement>) => {setPassword(event.currentTarget.value)}}
                 />
-                <SubmitBtn className="login_submit_btn btn" text="login" />
+                <Button 
+                    className="login_submit_btn btn" 
+                    text="login"
+                    type="submit"
+                />
                 {isLogined && !error && <div>Successfully logined</div>}
             </form>
     )

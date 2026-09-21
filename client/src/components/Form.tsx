@@ -1,6 +1,7 @@
 import { useState, type SubmitEvent, type InputEvent, type MouseEvent, useEffect } from "react"
 import Field from "./Field"
 import Button from "./Button"
+import ErrorHandler from "./ErrorHandler"
 import Cookies from "js-cookie"
 
 interface FormProps {

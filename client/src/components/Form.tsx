@@ -18,7 +18,7 @@ interface LoginResponse {
     error?: string
 }
 
-const Form = ({className}: FormProps) => {
+const LoginForm = ({className}: FormProps) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState("")
@@ -129,4 +129,4 @@ const Form = ({className}: FormProps) => {
     )
 }
 
-export default Form
+export default LoginForm

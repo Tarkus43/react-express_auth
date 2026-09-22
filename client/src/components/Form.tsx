@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent, type InputEvent, type MouseEvent, useEffect } from "react"
+import { useState, type SubmitEvent, type ChangeEvent, type MouseEvent, useEffect } from "react"
 import Field from "./Field"
 import Button from "./Button"
 import ErrorHandler from "./ErrorHandler"
@@ -9,28 +9,27 @@ interface FormProps {
 }
 
 interface ResponseData {
-    error?: string
     status?: string
     token?: string
 }
 
 interface LoginResponse {
     data?: ResponseData
+    error?: string
 }
 
 const Form = ({className}: FormProps) => {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [loginError, setLoginError] = useState("")
+    const [isLogined, setIsLogined] = useState(false)
+
     useEffect(() => {
         const token = Cookies.get("token")
         if (token) {
-            setIsLogined("true")
-            console.log("already logined :)")
+            setIsLogined(true)
         }
     }, [])
-
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState<string | null>(null)
-    const [isLogined, setIsLogined] = useState("")
 
     const login = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -46,18 +45,30 @@ const Form = ({className}: FormProps) => {
                     password
                 })
             })
-            if (!response.status) {
-                throw new Error("Error while sending login request")
-            }
 
             const result:LoginResponse = await response.json()
 
-            Cookies.set("token", result.data.token)
+            if (!response.ok) {
+                setLoginError(result.error)
+                return
+            }
 
-            console.log("Successfully logined ", result.data)
-            setIsLogined("true")
+            
+
+            if (result.data?.token) {
+                Cookies.set("token", result.data.token)
+                setIsLogined(true)
+                setLoginError("")
+                console.log("Successfully logined!")
+            } else if (result.error) {
+                setLoginError(result.error)
+            }
         } catch (error) {
-            setError(error)
+            if (error instanceof Error){
+                setLoginError(error.message)
+            } else {
+                setLoginError("Unexpected login error")
+            }
         }
         
     }
@@ -74,43 +85,47 @@ const Form = ({className}: FormProps) => {
             })
             console.log(response)
             Cookies.remove("token")
-
+            setIsLogined(false)
         } catch (error) {
-            setError(error)
+            setLoginError(error.message)
         }
-
-        setIsLogined("")
     }
 
     return(
-        <form onSubmit={login} className={className}>
-            <Field 
-                title="email"
-                type="email" 
-                inner="example@mail.com"
-                className="login_input input"
-                onInput={(event: InputEvent<HTMLInputElement>) => {setEmail(event.currentTarget.value)}}
-            />
-            <Field 
-                title="password"
-                type="password"
-                inner="password123"
-                className="password_input input"
-                onInput={(event: InputEvent<HTMLInputElement>) => {setPassword(event.currentTarget.value)}}
-            />
-            <Button 
-                className="login_btn btn" 
-                text="login"
-                type="submit"
-            />
-            {isLogined && !error && <div>Successfully logined</div>}
+        <>
+            {!isLogined && <form onSubmit={login} className={className}>
+                <Field 
+                    title="email"
+                    type="email" 
+                    inner="example@mail.com"
+                    className="login_input input"
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {setEmail(event.currentTarget.value)}}
+                />
+                <Field 
+                    title="password"
+                    type="password"
+                    inner="password123"
+                    className="password_input input"
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {setPassword(event.currentTarget.value)}}
+                />
+                <Button 
+                    className="login_btn btn" 
+                    text="login"
+                    type="submit"
+                />
+            </form>}
+            {isLogined && !loginError && <p>Successfully logined</p>}
             {isLogined && <Button
                 className="logout_btn btn"
                 text="logout"
                 type="button"
                 onClick={logout}
             />}
-        </form>
+            {loginError && <ErrorHandler
+                text={loginError}
+                className="login_error_handler error_handler"
+            />}
+        </>
     )
 }
 

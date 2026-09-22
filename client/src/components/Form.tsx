@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent, type ChangeEvent, type MouseEvent, useEffect } from "react"
+import { useState, type SubmitEvent, type ChangeEvent, type MouseEvent, useEffect, useRef } from "react"
 import Field from "./Field"
 import Button from "./Button"
 import ErrorHandler from "./ErrorHandler"
@@ -19,17 +19,31 @@ interface LoginResponse {
 }
 
 const LoginForm = ({className}: FormProps) => {
+
+    // states
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState("")
     const [isLogined, setIsLogined] = useState(false)
 
+    // refs
+    const emailInputRef = useRef(null)
+
+    // effects
     useEffect(() => {
         const token = Cookies.get("token")
         if (token) {
             setIsLogined(true)
         }
     }, [])
+    useEffect(() => {
+        emailInputRef.current.focus()
+    }, [])
+    useEffect(() => {
+        if (!isLogined) {
+            emailInputRef.current.focus()
+        }
+    }, [isLogined])
 
     const login = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -100,6 +114,7 @@ const LoginForm = ({className}: FormProps) => {
                     inner="example@mail.com"
                     className="login_input input"
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {setEmail(event.currentTarget.value)}}
+                    emailInputRef={emailInputRef}
                 />
                 <Field 
                     title="password"

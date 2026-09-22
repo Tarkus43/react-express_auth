@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from "react"
+import type { ChangeEventHandler, RefObject } from "react"
 
 interface FieldProps {
     title: string
@@ -6,10 +6,11 @@ interface FieldProps {
     type: string
     className: string
     onChange: ChangeEventHandler<HTMLInputElement>
+    emailInputRef?: RefObject<HTMLInputElement>
 }
 
 
-const Field = ({ title, inner, type, className, onChange }: FieldProps) => {
+const Field = ({ title, inner, type, className, onChange, emailInputRef }: FieldProps) => {
 
 
 
@@ -18,7 +19,7 @@ const Field = ({ title, inner, type, className, onChange }: FieldProps) => {
             <div className="input_wrapper">
                 <data className={className}></data>
                 <p>{title}</p>
-                <input onChange={onChange} type={type} placeholder={inner} />
+                <input ref={emailInputRef} onChange={onChange} type={type} placeholder={inner} />
             </div>
         </>
     )

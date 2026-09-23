@@ -1,10 +1,10 @@
 import { useState, type SubmitEvent, type ChangeEvent, type MouseEvent, useEffect, useRef } from "react"
-import Field from "./Field"
-import Button from "./Button"
-import ErrorHandler from "./ErrorHandler"
+import InputField from "../InputField/InputField"
+import Button from "../Button/Button"
+import ErrorHandler from "../ErrorHandler/ErrorHandler"
 import Cookies from "js-cookie"
 
-interface FormProps {
+interface LoginFormProps {
     className: string
 }
 
@@ -18,7 +18,7 @@ interface LoginResponse {
     error?: string
 }
 
-const LoginForm = ({className}: FormProps) => {
+const LoginForm = ({className}: LoginFormProps) => {
 
     // states
     const [email, setEmail] = useState("")
@@ -108,7 +108,7 @@ const LoginForm = ({className}: FormProps) => {
     return(
         <>
             {!isLogined && <form onSubmit={login} className={className}>
-                <Field 
+                <InputField 
                     title="email"
                     type="email" 
                     inner="example@mail.com"
@@ -116,7 +116,7 @@ const LoginForm = ({className}: FormProps) => {
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {setEmail(event.currentTarget.value)}}
                     emailInputRef={emailInputRef}
                 />
-                <Field 
+                <InputField 
                     title="password"
                     type="password"
                     inner="password123"

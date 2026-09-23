@@ -1,6 +1,6 @@
 import type { ChangeEventHandler, RefObject } from "react"
 
-interface FieldProps {
+interface InputFieldProps {
     title: string
     inner: string
     type: string
@@ -10,7 +10,7 @@ interface FieldProps {
 }
 
 
-const Field = ({ title, inner, type, className, onChange, emailInputRef }: FieldProps) => {
+const InputField = ({ title, inner, type, className, onChange, emailInputRef }: InputFieldProps) => {
 
 
 
@@ -25,4 +25,4 @@ const Field = ({ title, inner, type, className, onChange, emailInputRef }: Field
     )
 }   
 
-export default Field
+export default InputField

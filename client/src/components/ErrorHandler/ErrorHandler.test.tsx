@@ -8,4 +8,13 @@ describe("ErrorHandler", () => {
         render(<ErrorHandler text={testText}/>)
         expect(screen.getByText(testText)).toBeInTheDocument()
     })
+
+    it("applies correct className", () => {
+        const testClass = "test"
+        render(<ErrorHandler className={testClass} text="any text"/>)
+
+        const errorDiv = screen.getByText("any text")
+
+        expect(errorDiv).toHaveClass(testClass)
+    })
 })

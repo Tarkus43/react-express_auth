@@ -112,7 +112,8 @@ const LoginForm = ({className}: LoginFormProps) => {
                     title="email"
                     type="email" 
                     inner="example@mail.com"
-                    className="login_input input"
+                    inputClassName="email_input input"
+                    textClassName="input_title"
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {setEmail(event.currentTarget.value)}}
                     emailInputRef={emailInputRef}
                 />
@@ -120,7 +121,8 @@ const LoginForm = ({className}: LoginFormProps) => {
                     title="password"
                     type="password"
                     inner="password123"
-                    className="password_input input"
+                    inputClassName="password_input input"
+                    textClassName="input_title"
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {setPassword(event.currentTarget.value)}}
                 />
                 <Button 

@@ -1,5 +1,5 @@
 interface ErrorHandlerProps {
-    className: string
+    className?: string
     text: string
 }
 

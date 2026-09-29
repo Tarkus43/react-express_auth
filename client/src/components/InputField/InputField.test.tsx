@@ -1,9 +1,8 @@
-import { describe, it, expect, TestRunner } from "vitest";
+import { describe, it, expect} from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event"
 import InputField from "./InputField";
 import { createRef } from 'react'
-import { input } from "@testing-library/user-event/dist/cjs/event/input.js";
 
 describe("InputField", () => {
     it("renders with proper title", () => {
